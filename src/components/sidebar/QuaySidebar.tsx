@@ -1,9 +1,8 @@
-import React from 'react';
 import {Nav, NavItem, NavList, PageSidebar} from '@patternfly/react-core';
 import {Link} from 'react-router-dom';
 import {NavigationPath} from 'src/routes/NavigationPath';
 import Organizations from 'src/routes/Organizations/Organizations';
-import Repositories from 'src/routes/Organizations/Repositories/Repositories';
+import Repositories from 'src/routes/Repositories/Repositories';
 
 interface SideNavProps {
   isSideNav: boolean;

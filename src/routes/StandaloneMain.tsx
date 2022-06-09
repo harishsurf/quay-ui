@@ -1,19 +1,18 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {Page} from '@patternfly/react-core';
 
 import {Outlet, Route, Routes} from 'react-router-dom';
 
-import Builds from 'src/routes/Builds/Builds';
-import Repositories from 'src/routes/Organizations/Repositories/Repositories';
-import Repository from 'src/routes/Organizations/Repository/Repository';
-import Administration from 'src/routes/Admin/Administration';
 import Organizations from 'src/routes/Organizations/Organizations';
-import TeamMembershipTab from 'src/routes/Organizations/Repositories/Tabs/TeamMembershipTab';
 import {QuayHeader} from 'src/components/header/QuayHeader';
 import {QuaySidebar} from 'src/components/sidebar/QuaySidebar';
 import {getUser} from 'src/resources/UserResource';
 import {useRecoilState} from 'recoil';
 import {UserState} from 'src/atoms/UserState';
+import OrgScopedRepositories from './Organizations/OrgScopedRepositories/OrgScopedRepositories';
+import Repositories from './Repositories/Repositories';
+import Repository from 'src/routes/Organizations/Repository/Repository';
+import {NavigationPath} from './NavigationPath';
 
 export function StandaloneMain() {
   const [, setUserState] = useRecoilState(UserState);
@@ -31,18 +30,17 @@ export function StandaloneMain() {
       defaultManagedSidebarIsOpen={true}
     >
       <Routes>
-        <Route path={'/organizations'} element={<Organizations />}>
-          <Route path={':repoName'} element={<Repositories />} />
+        <Route path={NavigationPath.organizations} element={<Organizations />}>
+          {/* <Route path=':reponame' element={<OrgScopedRepositories />} /> */}
         </Route>
+        <Route
+          path={NavigationPath.orgScopedRepository}
+          element={<OrgScopedRepositories />}
+        />
+        <Route path={NavigationPath.repositories} element={<Repositories />} />
         <Route
           path={'/organizations/:organizationName/*'}
           element={<Repository />}
-        />
-        <Route path={'/builds'} element={<Builds />} />
-        <Route path={'/administration'} element={<Administration />} />
-        <Route
-          path={'/organizations/:repoName/team'}
-          element={<TeamMembershipTab />}
         />
       </Routes>
       <Outlet />
