@@ -1,5 +1,5 @@
 import {Nav, NavItem, NavList, PageSidebar} from '@patternfly/react-core';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {NavigationPath} from 'src/routes/NavigationPath';
 import Organizations from 'src/routes/Organizations/Organizations';
 import Repositories from 'src/routes/Repositories/Repositories';
@@ -27,6 +27,8 @@ const routes: SideNavProps[] = [
 ];
 
 export function QuaySidebar() {
+  const location = useLocation();
+
   const Navigation = (
     <Nav>
       <NavList>

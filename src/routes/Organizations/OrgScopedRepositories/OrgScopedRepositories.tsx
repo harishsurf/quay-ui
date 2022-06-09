@@ -10,17 +10,15 @@ import {
   TabTitleText,
   Title,
 } from '@patternfly/react-core';
-import {Link, useLocation} from 'react-router-dom';
-import RepositoriesTab from './Tabs/RepositoriesTab/RepositoriesTab';
+import {useLocation} from 'react-router-dom';
 import {NavigationPath} from '../../NavigationPath';
 import UsageLogsTab from './Tabs/UsageLogsTab';
 import {useCallback, useState} from 'react';
+import Repositories from 'src/routes/Repositories/Repositories';
 
 export default function OrgScopedRepositories() {
   const location = useLocation();
   const repositoryName = location.pathname.split('/')[2];
-
-  console.log('repositoryName', repositoryName);
 
   const [activeTabKey, setActiveTabKey] = useState<string | number>(0);
 
@@ -36,7 +34,7 @@ export default function OrgScopedRepositories() {
     {
       href: NavigationPath.orgScopedRepositoryTab,
       name: 'Repositories',
-      component: <RepositoriesTab />,
+      component: <Repositories />,
     },
     {
       href: NavigationPath.usagelogs,
@@ -49,8 +47,11 @@ export default function OrgScopedRepositories() {
     <Page>
       <PageBreadcrumb>
         <Breadcrumb>
-          <BreadcrumbItem data-testid="organization-breadcrumb" to="#">
-            <Link to={NavigationPath.organizations}>Organizations</Link>
+          <BreadcrumbItem
+            data-testid="organization-breadcrumb"
+            to={NavigationPath.organizations}
+          >
+            Organizations
           </BreadcrumbItem>
           <BreadcrumbItem data-testid="repo-breadcrumb" to="#" isActive>
             {repositoryName}
