@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
   TableComposable,
   Thead,
@@ -30,22 +29,18 @@ import {useRecoilValue} from 'recoil';
 import {AuthState} from 'src/atoms/AuthState';
 import {UserOrgs} from 'src/atoms/UserState';
 import {deleteOrg} from 'src/resources/OrganisationResource';
+import {useEffect, useState} from 'react';
 
 export default function Namespaces() {
-  const authState = useRecoilValue(AuthState);
-  const navigate = useNavigate();
-
-  const [namespacesList, setNamespacesList] = React.useState<
-    NamespaceListProps[]
-  >([]);
-  const [isNamespaceModalOpen, setNamespaceModalOpen] = React.useState(false);
-  const [namespaceSearchInput, setNamespaceSearchInput] = React.useState(
-    'Filter by name or ID..',
-  );
-  const [filterOpen, setFilterOpen] = React.useState(false);
-  const [selectedNamespace, setSelectedNamespace] = React.useState<string[]>(
+  const [namespacesList, setNamespacesList] = useState<NamespaceListProps[]>(
     [],
   );
+  const [isNamespaceModalOpen, setNamespaceModalOpen] = useState(false);
+  const [namespaceSearchInput, setNamespaceSearchInput] = useState(
+    'Filter by name or ID..',
+  );
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedNamespace, setSelectedNamespace] = useState<string[]>([]);
 
   const userOrgs = useRecoilValue(UserOrgs);
 
@@ -96,10 +91,10 @@ export default function Namespaces() {
     });
 
   // To allow shift+click to select/deselect multiple rows
-  const [recentSelectedRowIndex, setRecentSelectedRowIndex] = React.useState<
+  const [recentSelectedRowIndex, setRecentSelectedRowIndex] = useState<
     number | null
   >(null);
-  const [shifting, setShifting] = React.useState(false);
+  const [shifting, setShifting] = useState(false);
 
   const onSelectNamespace = (
     currentNamespace: NamespaceListProps,
@@ -128,7 +123,7 @@ export default function Namespaces() {
     setRecentSelectedRowIndex(rowIndex);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Shift') {
         setShifting(true);
@@ -149,7 +144,7 @@ export default function Namespaces() {
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (userOrgs) {
       userOrgs.map((org: any) => {
         setNamespacesList((prevNamespaces) => [

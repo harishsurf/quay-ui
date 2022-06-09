@@ -23,7 +23,7 @@ import {NavigationPath} from '../../NavigationPath';
 // import DefaultPermissionsTab from "./Tabs/DefaultPermissionsTab";
 // import UsageLogsTab from "./Tabs/UsageLogs";
 
-export default function Repositories(props) {
+export default function OrgScopedRepositories(props) {
   const location = useLocation();
   const repositoryName = location.pathname.split('/')[2];
   const [activeSubNavItem, setAativeSubNavItem] = React.useState(0);

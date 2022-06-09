@@ -4,11 +4,10 @@ export enum NavigationPath {
   overview = '/overview',
   search = '/search',
   namespace = '/namespaces',
-  builds = '/builds',
-  administration = '/administration',
+  repositories = '/repositories',
 
   // Repositories Nav
-  repositories = '/namespaces/:reponame',
+  orgScopedRepositories = '/namespaces/:reponame',
   repositoriesTab = '/namespaces/:reponame/repo',
   teamMembershipTab = '/namespaces/:reponame/team',
   robotAccountTab = '/namespaces/:reponame/robotacct',

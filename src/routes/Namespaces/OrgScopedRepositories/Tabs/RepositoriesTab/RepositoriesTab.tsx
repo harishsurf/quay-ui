@@ -19,7 +19,7 @@ import {
 } from '@patternfly/react-table';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {CreateRepositoryModal} from './CreateRepositoryModal';
+import {CreateRepositoryModal} from 'src/routes/Repositories/CreateRepositoryModal';
 
 export default function RepositoriesTab() {
   const QUAY_ENDPOINT = {
@@ -41,7 +41,6 @@ export default function RepositoriesTab() {
   console.log(dummy);
 
   const data = ['dummy1', 'dummy2'];
-  const onFilterChange = () => {};
 
   const selectDropdownItems = [
     <DropdownItem key="Select all">Select all</DropdownItem>,
@@ -103,17 +102,7 @@ export default function RepositoriesTab() {
               dropdownItems={kebabItems}
             />
           </ToolbarItem>
-          <ToolbarItem>
-            {/* <ListPageFilter
-            data={data}
-            loaded={true}
-            // rowFilters={filters}
-            hideNameLabelFilters={false}
-            hideLabelFilter={false}
-            hideColumnManagement={false}
-            onFilterChange={onFilterChange}
-          /> */}
-          </ToolbarItem>
+          <ToolbarItem></ToolbarItem>
           <ToolbarItem>
             <Button
               variant="primary"
@@ -127,7 +116,6 @@ export default function RepositoriesTab() {
                 handleModalToggle={() =>
                   setCreateRepoModalOpen(!isCreateRepoModalOpen)
                 }
-                quayEndPoint={QUAY_ENDPOINT}
               />
             ) : null}{' '}
           </ToolbarItem>

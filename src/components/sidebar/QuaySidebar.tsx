@@ -3,8 +3,8 @@ import {Nav, NavItem, NavList, PageSidebar} from '@patternfly/react-core';
 import {Link} from 'react-router-dom';
 import {NavigationPath} from 'src/routes/NavigationPath';
 import Namespaces from 'src/routes/Namespaces/Namespaces';
-import Repositories from 'src/routes/Namespaces/Repositories/Repositories';
 import {Overview} from '../../routes/Overview/Overview';
+import Repositories from 'src/routes/Repositories/Repositories';
 
 interface SideNavProps {
   isSideNav: boolean;
