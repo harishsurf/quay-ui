@@ -28,14 +28,25 @@ import {UserOrgs} from 'src/atoms/UserState';
 import {fetchAllRepos, IRepository} from 'src/resources/RepositoryResource';
 import {CreateRepositoryModal} from './CreateRepositoryModal';
 import {DeleteRepositoryModal} from './DeleteRepositoryModal';
+import {ConfirmationModal} from 'src/components/modal/ConfirmationModal';
 
 export default function Repositories() {
   const [isCreateRepoModalOpen, setCreateRepoModalOpen] = React.useState(false);
   const [isSelectDropDownOpen, setSelectDropDownOpen] = React.useState(false);
   const [isKebabOpen, setKebabOpen] = React.useState(false);
+  const [makePublicModalOpen, setmakePublicModal] = React.useState(false);
+  const [makePrivateModalOpen, setmakePrivateModal] = React.useState(false);
   const [repositoryList, setRepositoryList] = React.useState<
     RepositoryListProps[]
   >([]);
+
+  const toggleMakePublicClick = () => {
+    setmakePublicModal(!makePublicModalOpen);
+  };
+
+  const toggleMakePrivateClick = () => {
+    setmakePrivateModal(!makePrivateModalOpen);
+  };
 
   const [repositorySearchInput, setRepositorySearchInput] =
     React.useState('Filter by name..');
@@ -72,8 +83,20 @@ export default function Repositories() {
     <DropdownItem key="delete" onClick={handleRepoDeletion}>
       Delete
     </DropdownItem>,
-    <DropdownItem key="Make public">Make public</DropdownItem>,
-    <DropdownItem key="Make private">Make private</DropdownItem>,
+    <DropdownItem
+      key="make public123"
+      component="button"
+      onClick={toggleMakePublicClick}
+    >
+      Make Public
+    </DropdownItem>,
+    <DropdownItem
+      key="make private"
+      component="button"
+      onClick={toggleMakePrivateClick}
+    >
+      Make Private
+    </DropdownItem>,
     <DropdownItem key="Set team permissions">
       Set team permissions
     </DropdownItem>,
@@ -242,6 +265,20 @@ export default function Repositories() {
                 ) : null}
               </ToolbarItem>
             </ToolbarContent>
+            <ConfirmationModal
+              title="Make repositories public"
+              description="Update repositories visibility to be public so they are visible to all user, and may be pulled by all users."
+              modalOpen={makePublicModalOpen}
+              toggleModal={toggleMakePublicClick}
+              buttonText="Make public"
+            />
+            <ConfirmationModal
+              title="Make repositories private"
+              description="Update repositories visibility to be private so they are only visible to certain users, and only may be pulled by certain users."
+              modalOpen={makePrivateModalOpen}
+              toggleModal={toggleMakePrivateClick}
+              buttonText="Make private"
+            />
           </Toolbar>
           <TableComposable aria-label="Selectable table">
             <Thead>

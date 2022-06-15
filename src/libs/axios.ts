@@ -26,7 +26,6 @@ axiosIns.interceptors.request.use(async (config) => {
 
   if (config.headers && GlobalAuthState.csrfToken) {
     config.headers['X-CSRF-Token'] = GlobalAuthState.csrfToken;
-    config.headers['X-XSRF-Token'] = GlobalAuthState.csrfToken;
   }
 
   return config;
