@@ -124,13 +124,7 @@ export default function RepositoriesTab() {
       <TableComposable aria-label="Selectable table">
         <Thead>
           <Tr>
-            <Th
-            // select={{
-            //   onSelect: (_event, isSelecting) =>
-            //     selectAllNamespaces(isSelecting),
-            //   isSelected: areAllNamespacesSelected,
-            // }}
-            />
+            <Th />
             <Th>{columnNames.repoName}</Th>
             <Th>{columnNames.users}</Th>
             <Th>{columnNames.tagCount}</Th>
@@ -143,19 +137,11 @@ export default function RepositoriesTab() {
         <Tbody>
           {repositoryList.map((repo, rowIndex) => (
             <Tr key={repo.repoName}>
-              <Td
-              // select={{
-              //   rowIndex,
-              //   onSelect: (_event, isSelecting) =>
-              //     onSelectNamespace(repo, rowIndex, isSelecting),
-              //   isSelected: isNamespaceSelected(repo),
-              // }}
-              />
+              <Td />
               <Td dataLabel={columnNames.repoName}>
                 <Link to={`/quay/namespaces/${repo.repoName}`}>
                   {repo.repoName}
                 </Link>
-                {/* <Link to={'namespaces/builds'}> {ns.name} </Link> */}
               </Td>
               <Td dataLabel={columnNames.users}>{repo.users}</Td>
               <Td dataLabel={columnNames.tagCount}>{repo.tagCount}</Td>

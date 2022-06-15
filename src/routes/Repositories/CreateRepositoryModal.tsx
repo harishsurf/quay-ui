@@ -12,9 +12,10 @@ import {
   Grid,
   Alert,
   FileUpload,
+  Divider,
 } from '@patternfly/react-core';
 import {useRecoilValue} from 'recoil';
-import {UserOrgs} from 'src/atoms/UserState';
+import {UserOrgs, UserState} from 'src/atoms/UserState';
 import './css/CreateRepositoryModal.css';
 import {createNewRepository} from 'src/resources/RepositoryResource';
 import {useRef, useState} from 'react';
@@ -39,6 +40,7 @@ export const CreateRepositoryModal = (
   const {isModalOpen, handleModalToggle} = props;
 
   const userOrgs = useRecoilValue(UserOrgs);
+  const loggedInUser = useRecoilValue(UserState);
 
   const [newRepository, setNewRepository] = useState({
     name: '',
@@ -285,6 +287,9 @@ export const CreateRepositoryModal = (
               {userOrgs.map((orgs, idx) => (
                 <SelectOption key={idx} value={orgs.name}></SelectOption>
               ))}
+              {/* <SelectOption>
+              <Divider> {loggedInUser} </Divider>
+              </SelectOption> */}
             </Select>
           </FormGroup>
           <FormGroup

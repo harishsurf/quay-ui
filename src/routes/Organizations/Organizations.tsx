@@ -22,8 +22,8 @@ import {
   SelectGroup,
 } from '@patternfly/react-core';
 
-import './css/Namespaces.scss';
-import {CreateNamespaceModal} from './CreateNamespaceModal';
+import './css/Organizations.scss';
+import {CreateOrganizationModal} from './CreateOrganizationModal';
 import {Link, useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
 import {AuthState} from 'src/atoms/AuthState';
@@ -31,21 +31,26 @@ import {UserOrgs} from 'src/atoms/UserState';
 import {deleteOrg} from 'src/resources/OrganisationResource';
 import {useEffect, useState} from 'react';
 
-export default function Namespaces() {
-  const [namespacesList, setNamespacesList] = useState<NamespaceListProps[]>(
-    [],
-  );
-  const [isNamespaceModalOpen, setNamespaceModalOpen] = useState(false);
-  const [namespaceSearchInput, setNamespaceSearchInput] = useState(
+export default function Organizations() {
+  const authState = useRecoilValue(AuthState);
+  const navigate = useNavigate();
+
+  const [organizationsList, setOrganizationsList] = useState<
+    OrganizationsListProps[]
+  >([]);
+  const [isOrganizationModalOpen, setOrganizationModalOpen] = useState(false);
+  const [organizationSearchInput, setOrganizationSearchInput] = useState(
     'Filter by name or ID..',
   );
   const [filterOpen, setFilterOpen] = useState(false);
-  const [selectedNamespace, setSelectedNamespace] = useState<string[]>([]);
+  const [selectedOrganization, setSelectedOrganization] = useState<string[]>(
+    [],
+  );
 
   const userOrgs = useRecoilValue(UserOrgs);
 
   const columnNames = {
-    name: 'Namespace',
+    name: 'Organization',
     repoCount: 'Repo Count',
     tagCount: 'Tags',
     size: 'Size',
@@ -55,11 +60,11 @@ export default function Namespaces() {
   };
 
   const handleModalToggle = () => {
-    setNamespaceModalOpen(!isNamespaceModalOpen);
+    setOrganizationModalOpen(!isOrganizationModalOpen);
   };
 
   const handleFilteredSearch = (value: any) => {
-    setNamespaceSearchInput(value);
+    setOrganizationSearchInput(value);
   };
 
   const onSelect = () => {
@@ -67,27 +72,30 @@ export default function Namespaces() {
   };
 
   // Logic for handling all ns checkbox selections from <Th>
-  const selectAllNamespaces = (isSelecting = true) => {
-    setSelectedNamespace(
-      isSelecting ? namespacesList.map((ns) => ns.name) : [],
+  const selectAllOrganizations = (isSelecting = true) => {
+    setSelectedOrganization(
+      isSelecting ? organizationsList.map((ns) => ns.name) : [],
     );
   };
 
-  const areAllNamespacesSelected =
-    selectedNamespace.length === namespacesList.length;
+  const areAllOrganizationsSelected =
+    selectedOrganization.length === organizationsList.length;
 
   // Logic for handling row-wise checkbox selection in <Td>
-  const isNamespaceSelected = (ns: NamespaceListProps) =>
-    selectedNamespace.includes(ns.name);
+  const isOrganizationSelected = (ns: OrganizationsListProps) =>
+    selectedOrganization.includes(ns.name);
 
-  const setNamespaceChecked = (ns: NamespaceListProps, isSelecting = true) =>
-    setSelectedNamespace((prevSelected) => {
-      const otherSelectedNamespaceNames = prevSelected.filter(
+  const setOrganizationChecked = (
+    ns: OrganizationsListProps,
+    isSelecting = true,
+  ) =>
+    setSelectedOrganization((prevSelected) => {
+      const otherSelectedOrganizationNames = prevSelected.filter(
         (r) => r !== ns.name,
       );
       return isSelecting
-        ? [...otherSelectedNamespaceNames, ns.name]
-        : otherSelectedNamespaceNames;
+        ? [...otherSelectedOrganizationNames, ns.name]
+        : otherSelectedOrganizationNames;
     });
 
   // To allow shift+click to select/deselect multiple rows
@@ -96,8 +104,8 @@ export default function Namespaces() {
   >(null);
   const [shifting, setShifting] = useState(false);
 
-  const onSelectNamespace = (
-    currentNamespace: NamespaceListProps,
+  const onSelectOrganization = (
+    currentOrganization: OrganizationsListProps,
     rowIndex: number,
     isSelecting: boolean,
   ) => {
@@ -115,10 +123,10 @@ export default function Namespaces() {
               (_x, i) => i + rowIndex,
             );
       intermediateIndexes.forEach((index) =>
-        setNamespaceChecked(namespacesList[index], isSelecting),
+        setOrganizationChecked(organizationsList[index], isSelecting),
       );
     } else {
-      setNamespaceChecked(currentNamespace, isSelecting);
+      setOrganizationChecked(currentOrganization, isSelecting);
     }
     setRecentSelectedRowIndex(rowIndex);
   };
@@ -147,8 +155,8 @@ export default function Namespaces() {
   useEffect(() => {
     if (userOrgs) {
       userOrgs.map((org: any) => {
-        setNamespacesList((prevNamespaces) => [
-          ...prevNamespaces,
+        setOrganizationsList((prevOrganizations) => [
+          ...prevOrganizations,
           {
             name: org.name,
             repoCount: 1,
@@ -165,10 +173,10 @@ export default function Namespaces() {
 
   const onDelete = async () => {
     console.log('Delete clicked');
-    const x = selectedNamespace?.forEach(async (nsToBeDeleted) => {
+    const x = selectedOrganization?.forEach(async (nsToBeDeleted) => {
       try {
         await deleteOrg(nsToBeDeleted);
-        setNamespacesList((prev) =>
+        setOrganizationsList((prev) =>
           prev.filter((ns) => ns.name !== nsToBeDeleted),
         );
       } catch (e) {
@@ -188,7 +196,7 @@ export default function Namespaces() {
     <Page>
       <PageSection variant={PageSectionVariants.light} hasShadowBottom>
         <div className="co-m-nav-title--row">
-          <Title headingLevel="h1">Namespace</Title>
+          <Title headingLevel="h1">Organizations</Title>
         </div>
       </PageSection>
 
@@ -218,14 +226,14 @@ export default function Namespaces() {
                   type="search"
                   id="modal-with-form-form-name"
                   name="search input"
-                  value={namespaceSearchInput}
+                  value={organizationSearchInput}
                   onChange={handleFilteredSearch}
                 />
               </ToolbarItem>
               <ToolbarItem>
                 {' '}
                 <Button
-                  isDisabled={selectedNamespace.length === 0 ? true : false}
+                  isDisabled={selectedOrganization.length === 0}
                   variant="primary"
                   className="pf-c-button pf-m-plain"
                   type="button"
@@ -238,13 +246,13 @@ export default function Namespaces() {
               <ToolbarItem alignment={{xl: 'alignRight'}}>
                 <Button
                   variant="primary"
-                  onClick={() => setNamespaceModalOpen(true)}
+                  onClick={() => setOrganizationModalOpen(true)}
                 >
-                  Create Namespace
+                  Create Organization
                 </Button>
-                {isNamespaceModalOpen ? (
-                  <CreateNamespaceModal
-                    isModalOpen={isNamespaceModalOpen}
+                {isOrganizationModalOpen ? (
+                  <CreateOrganizationModal
+                    isModalOpen={isOrganizationModalOpen}
                     handleModalToggle={handleModalToggle}
                   />
                 ) : null}{' '}
@@ -257,8 +265,8 @@ export default function Namespaces() {
                 <Th
                   select={{
                     onSelect: (_event, isSelecting) =>
-                      selectAllNamespaces(isSelecting),
-                    isSelected: areAllNamespacesSelected,
+                      selectAllOrganizations(isSelecting),
+                    isSelected: areAllOrganizationsSelected,
                   }}
                 />
                 <Th>{columnNames.name}</Th>
@@ -271,19 +279,18 @@ export default function Namespaces() {
               </Tr>
             </Thead>
             <Tbody>
-              {namespacesList.map((ns, rowIndex) => (
+              {organizationsList.map((ns, rowIndex) => (
                 <Tr key={ns.name}>
                   <Td
                     select={{
                       rowIndex,
                       onSelect: (_event, isSelecting) =>
-                        onSelectNamespace(ns, rowIndex, isSelecting),
-                      isSelected: isNamespaceSelected(ns),
+                        onSelectOrganization(ns, rowIndex, isSelecting),
+                      isSelected: isOrganizationSelected(ns),
                     }}
                   />
                   <Td dataLabel={columnNames.name}>
                     <Link to={`${ns.name}`}>{ns.name}</Link>
-                    {/* <Link to={'namespaces/builds'}> {ns.name} </Link> */}
                   </Td>
                   <Td dataLabel={columnNames.repoCount}>{ns.repoCount}</Td>
                   <Td dataLabel={columnNames.tagCount}>{ns.tagCount}</Td>
@@ -303,7 +310,7 @@ export default function Namespaces() {
   );
 }
 
-type NamespaceListProps = {
+type OrganizationsListProps = {
   name: string;
   repoCount: number;
   tagCount: number;

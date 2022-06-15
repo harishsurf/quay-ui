@@ -47,7 +47,8 @@ export const DeleteRepositoryModal = (
         </HelperText>
         <p>
           {' '}
-          Confirm deletion by typing ${loggedInUser}/${repoToBeDeleted} below:{' '}
+          Confirm deletion by typing{' '}
+          <b>{`${loggedInUser.username}/${repoToBeDeleted}`} </b>below:{' '}
         </p>
         <TextInput
           value={repoToBeDeleted}
