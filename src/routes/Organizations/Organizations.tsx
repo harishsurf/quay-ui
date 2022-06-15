@@ -38,15 +38,14 @@ export default function Organizations() {
   const [organizationsList, setOrganizationsList] = useState<
     OrganizationsListProps[]
   >([]);
-  const [isOrganizationModalOpen, setOrganizationModalOpen] =
-    useState(false);
+  const [isOrganizationModalOpen, setOrganizationModalOpen] = useState(false);
   const [organizationSearchInput, setOrganizationSearchInput] = useState(
     'Filter by name or ID..',
   );
   const [filterOpen, setFilterOpen] = useState(false);
-  const [selectedOrganization, setSelectedOrganization] = useState<
-    string[]
-  >([]);
+  const [selectedOrganization, setSelectedOrganization] = useState<string[]>(
+    [],
+  );
 
   const userOrgs = useRecoilValue(UserOrgs);
 
