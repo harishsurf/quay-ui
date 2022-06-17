@@ -19,6 +19,7 @@ export function ConfirmationModal(props: ConfirmationModalProps) {
     props.toggleModal();
   };
 
+
   return (
     <Modal
       variant={ModalVariant.small}

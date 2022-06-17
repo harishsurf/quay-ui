@@ -32,6 +32,11 @@ import {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import {CreateRepositoryModalTemplate} from 'src/components/modals/CreateRepoModalTemplate';
 
+function getReponameFromURL(pathname: string): string {
+  return pathname.includes('organizations') ? pathname.split('/')[2] : null;
+}
+
+
 export default function Repositories(props: RepositoryListProps) {
   const [isCreateRepoModalOpen, setCreateRepoModalOpen] = useState(false);
   const [isSelectDropDownOpen, setSelectDropDownOpen] = useState(false);
@@ -42,6 +47,7 @@ export default function Repositories(props: RepositoryListProps) {
     [],
   );
 
+  
   const isRepoSelectable = (repo: Repository) => repo.name !== ''; // Arbitrary logic for this example
   const selectableRepos = repositoryList.filter(isRepoSelectable);
   const [selectedRepoNames, setSelectedRepoNames] = React.useState<string[]>(
