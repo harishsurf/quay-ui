@@ -23,7 +23,6 @@ export async function fetchAllRepos(namespaces: string[]) {
         );
       }),
     );
-    // console.log('repoList', repoList);
     return repoList;
   } catch (error) {
     console.log(error);
@@ -67,6 +66,27 @@ export async function createNewRepository(
       repo_kind,
     });
   } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function setRepositoryVisibility(
+  namespace: string,
+  repositoryName: string,
+  visibility: string,
+) {
+  const repositoryVisibilityUrl =
+    `/api/v1/repository/` +
+    namespace +
+    `/` +
+    repositoryName +
+    `/changevisibility`;
+  try {
+    const response = await axios.post(repositoryVisibilityUrl, {
+      visibility,
+    });
+  } catch (e) {
+    // TODO: Find a better way to propagate errors
     console.error(e);
   }
 }
