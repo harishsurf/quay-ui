@@ -216,7 +216,7 @@ export default function Repositories(props: RepositoryListProps) {
                     name: repo.name,
                     namespace: repo.namespace,
                     path: repo.namespace + '/' + repo.name,
-                    visibility: repo.is_public,
+                    isPublic: repo.is_public,
                     tags: 1,
                     size: '1.1GB',
                     pulls: 108,
@@ -371,7 +371,10 @@ export default function Repositories(props: RepositoryListProps) {
                   }}
                 />
                 <Td dataLabel={columnNames.repoName}> {repo.name} </Td>
-                <Td dataLabel={columnNames.visibility}> {repo.visibility} </Td>
+                <Td dataLabel={columnNames.visibility}>
+                  {' '}
+                  {repo.isPublic ? 'public' : 'private'}
+                </Td>
                 <Td dataLabel={columnNames.tags}> {repo.tags} </Td>
                 <Td dataLabel={columnNames.size}> {repo.size} </Td>
                 <Td dataLabel={columnNames.pulls}> {repo.pulls} </Td>
@@ -393,7 +396,7 @@ type RepositoryListProps = {
   name: string;
   namespace: string;
   path: string;
-  visibility: boolean;
+  isPublic: boolean;
   tags: number;
   size: string;
   pulls: number;
@@ -405,7 +408,7 @@ interface Repository {
   name: string;
   namespace: string;
   path: string;
-  visibility: boolean;
+  isPublic: boolean;
   tags: number;
   size: string;
   pulls: number;
