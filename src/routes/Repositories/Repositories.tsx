@@ -22,7 +22,6 @@ import {
   Tbody,
   Td,
 } from '@patternfly/react-table';
-import * as React from 'react';
 import {useRecoilValue} from 'recoil';
 import {UserOrgs, UserState} from 'src/atoms/UserState';
 import {fetchAllRepos} from 'src/resources/RepositoryResource';
@@ -36,7 +35,6 @@ function getReponameFromURL(pathname: string): string {
   return pathname.includes('organizations') ? pathname.split('/')[2] : null;
 }
 
-
 export default function Repositories(props: RepositoryListProps) {
   const [isCreateRepoModalOpen, setCreateRepoModalOpen] = useState(false);
   const [isSelectDropDownOpen, setSelectDropDownOpen] = useState(false);
@@ -47,12 +45,9 @@ export default function Repositories(props: RepositoryListProps) {
     [],
   );
 
-  
   const isRepoSelectable = (repo: Repository) => repo.name !== ''; // Arbitrary logic for this example
   const selectableRepos = repositoryList.filter(isRepoSelectable);
-  const [selectedRepoNames, setSelectedRepoNames] = React.useState<string[]>(
-    [],
-  );
+  const [selectedRepoNames, setSelectedRepoNames] = useState<string[]>([]);
 
   const setRepoSelected = (repo: Repository, isSelecting = true) =>
     setSelectedRepoNames((prevSelected) => {
@@ -73,7 +68,7 @@ export default function Repositories(props: RepositoryListProps) {
   const isRepoSelected = (repo: Repository) =>
     selectedRepoNames.includes(repo.path);
 
-  const [recentSelectedRowIndex, setRecentSelectedRowIndex] = React.useState<
+  const [recentSelectedRowIndex, setRecentSelectedRowIndex] = useState<
     number | null
   >(null);
 
@@ -221,7 +216,7 @@ export default function Repositories(props: RepositoryListProps) {
                     name: repo.name,
                     namespace: repo.namespace,
                     path: repo.namespace + '/' + repo.name,
-                    visibility: repo.is_public ? 'public' : 'private',
+                    visibility: repo.is_public,
                     tags: 1,
                     size: '1.1GB',
                     pulls: 108,
@@ -397,13 +392,14 @@ export default function Repositories(props: RepositoryListProps) {
 type RepositoryListProps = {
   name: string;
   namespace: string;
+  path: string;
   visibility: boolean;
   tags: number;
   size: string;
   pulls: number;
   lastPull: string;
   lastModified: string;
-}[];
+};
 
 interface Repository {
   name: string;
