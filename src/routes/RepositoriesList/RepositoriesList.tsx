@@ -125,13 +125,20 @@ export default function RepositoriesList() {
     // TODO: ADD API calls for bulk/ selected repo deletion
   };
 
+  const fetchConfirmationModalText = () => {
+    if (selectedRepoNames.length == 1) {
+      return selectedRepoNames[0];
+    }
+    return selectedRepoNames.length;
+  };
+
   const fetchMakePublicDescription = () => {
     if (selectedRepoNames.length == 0) {
       return 'Please select one/more repositories to change visibility.';
     }
     return (
       'Update ' +
-      selectedRepoNames.length +
+      fetchConfirmationModalText() +
       ' repositories visibility to be public so they are visible to all user, and may be pulled by all users.'
     );
   };
@@ -142,7 +149,7 @@ export default function RepositoriesList() {
     }
     return (
       'Update ' +
-      selectedRepoNames.length +
+      fetchConfirmationModalText() +
       ' repositories visibility to be private so they are only visible to certain users, and only may be pulled by certain users.'
     );
   };
