@@ -222,10 +222,16 @@ mock
     return [200, testorg1234Response];
   });
 
-// TODO: Fix this.
-mock
-  .onPost('/api/v1/repository/.*/changevisibility')
-  .reply((request: AxiosRequestConfig) => {
-    const {namespace, repositoryName, visibility} = JSON.parse(request.data);
-    return [200, successResponse];
-  });
+mock.onPost('/api/v1/repository').reply((request: AxiosRequestConfig) => {
+  const {namespace, repository, visibility, description, repo_kind} =
+    JSON.parse(request.data);
+  return [200, successResponse];
+});
+
+const visibilityPathRegex = new RegExp(
+  `/api/v1/repository/.+/.+/changevisibility`,
+);
+mock.onPost(visibilityPathRegex).reply((request: AxiosRequestConfig) => {
+  const {visibility} = JSON.parse(request.data);
+  return [200, successResponse];
+});
